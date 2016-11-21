@@ -26,6 +26,7 @@ function Mundo(gravidade, resistenciaDoAr) {
     this.altura = window.innerHeight/50
     this.largura = window.innerWidth/50
     this.corpos = []
+    this.coeficienteDeRestituicao = 0.6
     this.dt = 1/60 // 60 frames por segundos
 }
 
@@ -46,23 +47,23 @@ Mundo.prototype.run = function () {
         var dt = this.dt
 
         if(!corpo.ay){
-            ay = 0;
+            ay = this.gravidade.y;
         }
 
         var dy = vy * dt + (1/2 * ay * dt * dt) 
         corpo.y += dy
-        
 
         var fy = this.gravidade.y * massa - this.resistenciaDoAr * vy 
         var new_ay = fy / massa
-
-        
-
+       
         corpo.ay = 1/2 * (ay + new_ay) 
         corpo.vy += corpo.ay * dt 
-
-
-        console.log(corpo)
+        
+        if(corpo.y > this.altura-(corpo.altura/2)){
+            corpo.y = this.altura-(corpo.altura/2)
+            corpo.vy *= - this.coeficienteDeRestituicao
+        }
+        
 
     }
 
@@ -70,7 +71,7 @@ Mundo.prototype.run = function () {
 }
 
 /**
- * Deus, o manipulador.
+ * Deus, o manipulador. 
  */
 
 function Deus() { }
@@ -78,7 +79,7 @@ function Deus() { }
 Deus.prototype.criarNovoMundo = function (gravidade) {
     
     var gravidade = { x: 0, y: 9.8 }
-    var resistenciaDoAr = 0.1
+    var resistenciaDoAr = 0.01
 
     this.mundo = new Mundo(gravidade, resistenciaDoAr)
 
