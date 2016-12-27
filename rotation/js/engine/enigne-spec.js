@@ -1,4 +1,4 @@
-function setUpDependecies() {
+function setUpEngineDependecies() {
 
     function Mundo() { }
     Mundo.prototype.girar = function () {}
@@ -23,7 +23,7 @@ describe('Engine', function () {
     let engine, mundo, desenhista
 
     beforeEach(function () {
-        engine = setUpDependecies()
+        engine = setUpEngineDependecies()
     })
 
     it('deve ser ativada a cada 1/60s', function () {
