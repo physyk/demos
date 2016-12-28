@@ -42,11 +42,15 @@ describe('Mundo', function () {
 
     describe('translação', function () {
         describe('angular', function () {
+            it('rotaciona todos os objectos', function(){
 
+            })
         })
 
         describe('linear', function () {
-
+            it('translada todos os objectos', function(){
+                
+            })
         })
     })
 
