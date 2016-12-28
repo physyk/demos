@@ -10,6 +10,6 @@ Engine.prototype.start = function () {
 }
 
 Engine.prototype.run = function(){
-    this.mundo.girar()
+    this.mundo.movimentarCorpos()
     this.desenhista.pintar(this.mundo.corpos())
 }

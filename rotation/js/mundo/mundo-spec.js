@@ -1,7 +1,13 @@
 function mundoDependecies() {
     function Corpo() { this.forcas = 0 }
     Corpo.prototype.aplicarForca = function (forca) { }
+    Corpo.prototype.transladar = function (deslocamento) { }
+    Corpo.prototype.rotacionar = function (rotacao) { }
     return Corpo
+}
+
+function isNotArray(item) {
+    return !Array.isArray(item)
 }
 
 function createMundo(corpos) {
@@ -12,10 +18,19 @@ function createMundo(corpos) {
 }
 
 function createSpies(collection, method) {
-    if (!Array.isArray(collection)) collection = [collection]
     return collection.map(item => sinon.spy(item, method))
 }
 
+function shouldBeCalledWith(spies, ...arguments) {
+    if (isNotArray(spies)) spies = [spies]
+    spies.forEach(spy => {
+        spy.calledWith(...arguments).should.to.be.true
+    })
+}
+
+function shouldBeCalled(spies) {
+    spies.forEach(spy => spy.called.should.to.be.true)
+}
 
 describe('Mundo', function () {
 
@@ -30,7 +45,36 @@ describe('Mundo', function () {
         })
     })
 
+
+    describe("ao movimentar corpos", function () {
+
+        let mundo, corpos, transladarCorpos, rotacionarCorpos, calcularDeslocamento
+
+        beforeEach(() => {
+            mundo = createMundo()
+            corpos = mundo.corpos
+            transladarCorpos = createSpies(corpos, 'transladar')
+            rotacionarCorpos = createSpies(corpos, 'rotacionar')
+            calcularDeslocamento = sinon.spy(mundo, 'calcularDeslocamento')
+
+            mundo.movimentarCorpos()
+        })
+
+        it("calcula o deslocamento para cada o corpo, e os rotaciona e translada de acordo", function () {
+            shouldBeCalled(transladarCorpos)
+            shouldBeCalled(rotacionarCorpos)
+            calcularDeslocamento.callCount.should.to.be.equal(corpos.length)
+        })
+
+        // it("calculo de deslocamento é usado pela rotação e pela translação", function () {
+        //     const {angular: angulo, linear: deslocamento} = calcularDeslocamentos()
+        //     shouldBeCalledWith(transladarCorpos, deslocamento)
+        //     shouldBeCalledWith(rotacionarCorpos, angulo)
+        // })
+    })
+
     describe('cálculo de deslocamento', function () {
+
         describe('angular', function () {
 
         })
@@ -40,19 +84,7 @@ describe('Mundo', function () {
         })
     })
 
-    describe('translação', function () {
-        describe('angular', function () {
-            it('rotaciona todos os objectos', function(){
 
-            })
-        })
-
-        describe('linear', function () {
-            it('translada todos os objectos', function(){
-                
-            })
-        })
-    })
 
 
 
