@@ -1,0 +1,47 @@
+Corpo 
+
+    - tem massa
+    - momento de inercia (estimado)
+    - tem vertices
+    - tem uma corda aplicada a ela.
+    - centro de massa
+    - deslocamentos
+        - linear 
+            - posição 
+            - velocidade
+            - aceleração
+        - angular
+            - posição 
+            - velocidade
+            - aceleração
+      
+    + tem o seu centro de massa definido pelos vertices    
+    + pode ser rodado ( atulização das variaveis de deslocamento linear )
+    + pode ser transladado ( atulização das variaveis de deslocamento angular )
+    + sofre a aplicação de força gravidade e da corda (interface)
+        - rotação - torque
+        - deslocamento - forças
+
+     
+Corda  
+
+    - tem elasticidade
+    - extremidades
+    
+    + puxa o objecto com força proporcional a sua velocidade.
+
+Vetor
+
+    - componente x 
+    - componente y
+
+    + soma
+    + subtrai
+    + sofre variação de comprimento (multiplicado por um  escalar)
+    + produto vetorial
+    + produto escalar
+    
+
+
+
+
