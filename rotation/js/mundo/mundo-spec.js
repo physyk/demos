@@ -21,6 +21,12 @@ function createSpies(collection, method) {
     return collection.map(item => sinon.spy(item, method))
 }
 
+function createSpyForEachMethod(collection, ...methods) {
+    var object = {}
+    methods.forEach(method => object[method] = sinon.spy(collection, method))
+    return object
+}
+
 function shouldBeCalledWith(spies, ...arguments) {
     if (isNotArray(spies)) spies = [spies]
     spies.forEach(spy => {
@@ -46,43 +52,60 @@ describe('Mundo', function () {
     })
 
 
-    describe("ao movimentar corpos", function () {
+    describe("movimento", function () {
 
-        let mundo, corpos, transladarCorpos, rotacionarCorpos, calcularDeslocamento
+        let mundo, corpos, transladarCorpos, rotacionarCorpos, calcularDeslocamento, deslocamento
 
         beforeEach(() => {
             mundo = createMundo()
-            corpos = mundo.corpos
-            transladarCorpos = createSpies(corpos, 'transladar')
-            rotacionarCorpos = createSpies(corpos, 'rotacionar')
-            calcularDeslocamento = sinon.spy(mundo, 'calcularDeslocamento')
 
-            mundo.movimentarCorpos()
-        })
-
-        it("calcula o deslocamento para cada o corpo, e os rotaciona e translada de acordo", function () {
-            shouldBeCalled(transladarCorpos)
-            shouldBeCalled(rotacionarCorpos)
-            calcularDeslocamento.callCount.should.to.be.equal(corpos.length)
-        })
-
-        // it("calculo de deslocamento é usado pela rotação e pela translação", function () {
-        //     const {angular: angulo, linear: deslocamento} = calcularDeslocamentos()
-        //     shouldBeCalledWith(transladarCorpos, deslocamento)
-        //     shouldBeCalledWith(rotacionarCorpos, angulo)
-        // })
+            calcularDeslocamento = sinon.stub(mundo, 'calcularDeslocamento')
+            deslocamento = {angular:Math.random(), linear: Math.random()}
+            calcularDeslocamento.returns(deslocamento)
     })
 
-    describe('cálculo de deslocamento', function () {
+    it("calcula o deslocamentos(linear, angular) para cada o corpo, e os rotaciona", function () {
+        const corpos = mundo.corpos
+            , transladarCorpos = createSpies(corpos, 'transladar')
+            , rotacionarCorpos = createSpies(corpos, 'rotacionar')
 
-        describe('angular', function () {
+        mundo.movimentarCorpos()
 
-        })
-
-        describe('linear', function () {
-
-        })
+        shouldBeCalled(transladarCorpos)
+        shouldBeCalled(rotacionarCorpos)
+        calcularDeslocamento.callCount.should.to.be.equal(corpos.length)
     })
+
+    it("transladar e rotacionar de acordo com os calculos de deslocamento linar e angular, respectivamente", function () {
+
+        const Corpo = new mundoDependecies()
+            , corpo = new Corpo()
+            , {transladar, rotacionar} = createSpyForEachMethod(corpo, 'transladar', 'rotacionar')
+
+        mundo.moverCorpo(corpo)
+
+        shouldBeCalledWith(transladar, deslocamento.linear)
+        shouldBeCalledWith(rotacionar, deslocamento.angular)
+
+    })
+
+    // it("calculo de deslocamento é usado pela rotação e pela translação", function () {
+    //     const {angular: angulo, linear: deslocamento} = calcularDeslocamentos()
+    //     shouldBeCalledWith(transladarCorpos, deslocamento)
+    //     shouldBeCalledWith(rotacionarCorpos, angulo)
+    // })
+})
+
+describe('cálculo de deslocamento', function () {
+
+    describe('angular', function () {
+
+    })
+
+    describe('linear', function () {
+
+    })
+})
 
 
 

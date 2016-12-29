@@ -23,9 +23,9 @@ Mundo.prototype.rotacionarCorpos = function (angulo) {
 }
 
 Mundo.prototype.moverCorpo = function (corpo) {
-    this.calcularDeslocamento(corpo)
-    corpo.transladar()
-    corpo.rotacionar()
+    const {linear: deslocamento, angular: angulo} = this.calcularDeslocamento(corpo)
+    corpo.transladar(deslocamento)
+    corpo.rotacionar(angulo)
 }
 
 Mundo.prototype.movimentarCorpos = function () {
