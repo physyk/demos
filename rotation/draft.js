@@ -58,12 +58,20 @@ describe('translação', function () {
 
 
 it('deve aplicar força gravitacional em todos os corpos', function () {
-        const Corpo = mundoDependecies()
-            , corpos = [new Corpo(), new Corpo(), new Corpo()]
-            , spies = createSpies(corpos, "aplicarForca")
-            , {gravidade} = createMundo(corpos)
+    const Corpo = mundoDependecies()
+        , corpos = [new Corpo(), new Corpo(), new Corpo()]
+        , spies = createSpies(corpos, "aplicarForca")
+        , {gravidade} = createMundo(corpos)
 
-        corpos.forEach(corpo => {
-            corpo.aplicarForca.calledWith(gravidade).should.to.be.true
-        })
+    corpos.forEach(corpo => {
+        corpo.aplicarForca.calledWith(gravidade).should.to.be.true
     })
+})
+
+xit('calcula posição relativa ao centro de massa', function () {
+    const {vertices, centroDeMassa} = corpo
+        , calculoVerticesAoCM = createSpies(vertices, "subtrair")
+
+    shouldBeCalledWith(calculoVerticesAoCM, centroDeMassa)
+
+})

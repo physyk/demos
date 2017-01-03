@@ -1,9 +1,9 @@
 function Corpo(gravidade, corda, vertices, massa) {
     this.massa = massa || 1
     this.vertices = vertices
+    this.centroDeMassa = this.calcularcentroDeMassa()
     this.corda = corda
     this.momentoInercia = 1200 //definir
-    this.centroMassa = this.calcularCentroMassa()
     this.deslocamentoLinear = { posicao: this.centroDeMassa, velocidade: 0, aceleracao: 0 }
     this.deslocamentoAngular = { posicao: 0, velocidade: 0, aceleracao: 0 }
 }
@@ -27,7 +27,7 @@ Corpo.prototype.calcularArea = function () {
     return area
 }
 
-Corpo.prototype.calcularCentroMassa = function () {
+Corpo.prototype.calcularcentroDeMassa = function () {
     const vertices = this.vertices
         , indiceFinal = vertices.length - 1
         , area = this.calcularArea()
@@ -42,19 +42,59 @@ Corpo.prototype.calcularCentroMassa = function () {
             , { x: xProximo, y: yProximo } = vertices[proximoIndice]
 
         let coeficienteComum = (x * yProximo - y * xProximo) / (6 * area)
-        
+
         cX += (x + xProximo) * coeficienteComum
         cY += (y + yProximo) * coeficienteComum
 
     }
 
-
-
-    return new Vetor(cX,cY)
+    return new Vetor(cX, cY)
 }
 
-Corpo.prototype.atualizarForcas = function () { }
-Corpo.prototype.atualizarTorques = function () { }
-Corpo.prototype.transladar = function (deslocamento) { }
-Corpo.prototype.rotacionar = function (rotacao) { }
+Corpo.prototype.peso = function () {
+    const {massa, gravidade} = this
+    return gravidade.multiplicar(massa)
+}
+
+Corpo.prototype.tensaoCorda = function () {
+    return this.corda.tensao()
+}
+
+Corpo.prototype.atualizarForcas = function () {
+    const {tensaoCorda} = this
+    this.forcaResultante = this.peso().adicionar(tensaoCorda())
+}
+
+Corpo.prototype.atualizarTorques = function () {
+    const {centroDeMassa} = this
+        , {pontoAmarradoAoCorpo, tensaoCorda} = this.corda
+
+    const braco = this.corda.pontoAmarradoAoCorpo.distancia(centroDeMassa)
+
+    this.torqueResultante = braco.produtoVetorial(tensaoCorda())
+}
+
+Corpo.prototype.transladarVertices = function (deslocamento) {
+    this.vertices.forEach(vertice => vertice.transladar(deslocamento))
+}
+
+Corpo.prototype.rotacionarVertices = function (angulo) {
+    const {centroDeMassa} = this
+    this.vertices.forEach((vertice, index) => {
+        this.vertices[index] = vertice.distancia(centroDeMassa).rotacionar(angulo).adicionar(centroDeMassa)
+    }, this)
+}
+
+Corpo.prototype.transladar = function (translacao) {
+    const {posicao} = translacao
+    this.deslocamentoLinear = translacao
+    this.centroDeMassa.transladar(posicao)
+    this.transladarVertices(posicao)
+}
+
+Corpo.prototype.rotacionar = function (rotacao) {
+    const {posicao: angulo } = rotacao
+    this.rotacionarVertices(angulo)
+    this.deslocamentoAngular = rotacao
+}
 
