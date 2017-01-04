@@ -29,7 +29,7 @@ describe('Mundo', function () {
             calcularDeslocamento.returns(deslocamento)
         })
 
-        xit("calcula o deslocamentos(linear, angular) para cada o corpo, e os movimenta", function () {
+        it("calcula o deslocamentos(linear, angular) para cada o corpo, e os movimenta", function () {
             const corpos = mundo.corpos
                 , transladarCorpos = createSpies(corpos, 'transladar')
                 , rotacionarCorpos = createSpies(corpos, 'rotacionar')
@@ -42,7 +42,7 @@ describe('Mundo', function () {
             calcularDeslocamento.callCount.should.to.be.equal(corpos.length)
         })
 
-        xit("atualizar forças dos corpos e move-los a partir dos calculos de deslocamento linar e angular", function () {
+        it("atualizar forças dos corpos e move-los a partir dos calculos de deslocamento linar e angular", function () {
 
             const Corpo = new mundoDependecies()
                 , corpo = new Corpo()

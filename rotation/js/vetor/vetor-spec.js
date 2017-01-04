@@ -2,11 +2,10 @@ describe('Vetor', function () {
 
     let vetor
 
-    beforeEach(() => vetor = new Vetor(0, 0));
-
     it('Translada os corpos', function () {
         const x = 3, y = 3
             , deslocamento = new Vetor(x, y)
+            , vetor = new Vetor(0, 0)
 
         vetor.transladar(deslocamento)
         expect(vetor).to.deep.equal(deslocamento)
@@ -73,7 +72,3 @@ describe('Vetor', function () {
 
 
 })
-
-function restartVetor() {
-    return
-}
