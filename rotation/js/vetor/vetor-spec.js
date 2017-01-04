@@ -62,12 +62,13 @@ describe('Vetor', function () {
         expect(vetor.produtoVetorial(ref)).to.equal(-1)
     });
 
-    xit('', function () {
+    it('Multiplica por um escalar', function () {
+        const vetor = new Vetor(1,1)
+            , scale = 5
 
-    });
-
-    xit('', function () {
-
+        const newVetor = vetor.multiplicar(scale)
+        
+        expect(newVetor).to.deep.equal(new Vetor(vetor.x*scale, vetor.y*scale))
     });
 
 
