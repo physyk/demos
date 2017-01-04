@@ -32,3 +32,6 @@ function shouldBeCalled(spies) {
     if (isNotArray(spies)) spies = [spies]
     spies.forEach(spy => spy.called.should.to.be.true)
 }
+function abs(number){
+    return Math.abs(number)
+}

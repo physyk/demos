@@ -56,12 +56,8 @@ Corpo.prototype.peso = function () {
     return gravidade.multiplicar(massa)
 }
 
-Corpo.prototype.tensaoCorda = function () {
-    return this.corda.tensao()
-}
-
 Corpo.prototype.atualizarForcas = function () {
-    const {tensaoCorda} = this
+    const {tensaoCorda} = this.corda
     this.forcaResultante = this.peso().adicionar(tensaoCorda())
 }
 
@@ -69,7 +65,7 @@ Corpo.prototype.atualizarTorques = function () {
     const {centroDeMassa} = this
         , {pontoAmarradoAoCorpo, tensaoCorda} = this.corda
 
-    const braco = this.corda.pontoAmarradoAoCorpo.distancia(centroDeMassa)
+    const braco = pontoAmarradoAoCorpo.distancia(centroDeMassa)
 
     this.torqueResultante = braco.produtoVetorial(tensaoCorda())
 }
