@@ -7,6 +7,7 @@ Vetor.prototype.transladar = function (translacao) {
     const {x, y} = translacao
     this.x = x
     this.y = y
+    
     return this
 }
 Vetor.prototype.rotacionar = function (angulo) {
