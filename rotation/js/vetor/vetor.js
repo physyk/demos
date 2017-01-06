@@ -10,15 +10,17 @@ Vetor.prototype.transladar = function (translacao) {
     
     return this
 }
-Vetor.prototype.rotacionar = function (angulo) {
+Vetor.prototype.rotacionar = function (angulo, center) {
+
+    center = center || new Vetor(0,0)
 
     const sin = Math.sin(angulo)
         , cos = Math.cos(angulo)
 
-    const {x, y} = this
+    const {x, y} = this.distancia(center)
 
-    this.x = x * cos - y * sin
-    this.y = x * sin + y * cos
+    this.x = center.x + (x * cos - y * sin)
+    this.y = center.y + (x * sin + y * cos)
 
     return this
 }

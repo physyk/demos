@@ -76,10 +76,7 @@ Corpo.prototype.transladarVertices = function (deslocamento) {
 
 Corpo.prototype.rotacionarVertices = function (angulo) {
     const {centroDeMassa} = this
-    this.vertices.forEach((vertice, index) => {
-        //TO DO: pass the responsability of update to the fucntion "rotacinoar"
-        this.vertices[index] = vertice.distancia(centroDeMassa).rotacionar(angulo).adicionar(centroDeMassa)
-    }, this)
+    this.vertices.forEach(vertice => vertice.rotacionar(angulo, centroDeMassa))
 }
 
 Corpo.prototype.transladar = function (translacao) {
