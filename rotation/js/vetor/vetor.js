@@ -7,12 +7,12 @@ Vetor.prototype.transladar = function (translacao) {
     const {x, y} = translacao
     this.x = x
     this.y = y
-    
+
     return this
 }
 Vetor.prototype.rotacionar = function (angulo, center) {
 
-    center = center || new Vetor(0,0)
+    center = center || new Vetor(0, 0)
 
     const sin = Math.sin(angulo)
         , cos = Math.cos(angulo)
@@ -47,4 +47,11 @@ Vetor.prototype.multiplicar = function (escalar) {
         , y = this.y * escalar
 
     return new Vetor(x, y)
+}
+
+Vetor.prototype.comprimento = function () {
+    const xSquare = Math.pow(this.x, 2)
+        , ySquare = Math.pow(this.y, 2)
+
+    return Math.sqrt(xSquare + ySquare)
 }

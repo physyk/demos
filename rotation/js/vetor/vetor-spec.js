@@ -50,25 +50,35 @@ describe('Vetor', function () {
 
         const novo = vetor.adicionar(referencia)
 
-        expect(novo.x).to.equal(x+xReferencia)
-        expect(novo.y).to.equal(y+yReferencia)
+        expect(novo.x).to.equal(x + xReferencia)
+        expect(novo.y).to.equal(y + yReferencia)
 
     });
 
     it('Calcula a componente do produto no eixo z', function () {
-        const vetor = new Vetor(1,1)
+        const vetor = new Vetor(1, 1)
             , ref = new Vetor(1, 0)
         expect(vetor.produtoVetorial(ref)).to.equal(-1)
     });
 
     it('Multiplica por um escalar', function () {
-        const vetor = new Vetor(1,1)
+        const vetor = new Vetor(1, 1)
             , scale = 5
 
         const newVetor = vetor.multiplicar(scale)
-        
-        expect(newVetor).to.deep.equal(new Vetor(vetor.x*scale, vetor.y*scale))
+
+        expect(newVetor).to.deep.equal(new Vetor(vetor.x * scale, vetor.y * scale))
     });
+
+    it('calcula proprio comprimento', function () {
+        const x = 3, y = 1
+            , vetor = new Vetor(x, y)
+            , comprimentoEsperado = Math.sqrt(x*x+y*y) 
+            , erro = abs(vetor.comprimento()-comprimentoEsperado)
+
+        expect(erro).to.be.below(0.001)
+
+    })
 
 
 })
