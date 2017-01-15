@@ -10,6 +10,7 @@ Vetor.prototype.transladar = function (translacao) {
 
     return this
 }
+
 Vetor.prototype.rotacionar = function (angulo, center) {
 
     center = center || new Vetor(0, 0)
@@ -54,4 +55,9 @@ Vetor.prototype.comprimento = function () {
         , ySquare = Math.pow(this.y, 2)
 
     return Math.sqrt(xSquare + ySquare)
+}
+
+Vetor.prototype.unitario = function(){
+    const comprimento = this.comprimento()
+    return this.multiplicar(1/comprimento)
 }

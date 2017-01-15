@@ -73,11 +73,17 @@ describe('Vetor', function () {
     it('calcula proprio comprimento', function () {
         const x = 3, y = 1
             , vetor = new Vetor(x, y)
-            , comprimentoEsperado = Math.sqrt(x*x+y*y) 
-            , erro = abs(vetor.comprimento()-comprimentoEsperado)
+            , comprimentoEsperado = Math.sqrt(x * x + y * y)
+            , erro = abs(vetor.comprimento() - comprimentoEsperado)
 
         expect(erro).to.be.below(0.001)
 
+    })
+
+    it('calcula unitário', function () {
+        const vetor = new Vetor(5, 10)
+            , expectedValue = vetor.unitario().comprimento()
+        expect(abs(expectedValue-1)).to.be.below(0.001)
     })
 
 

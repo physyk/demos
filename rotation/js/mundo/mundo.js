@@ -5,7 +5,6 @@ function Mundo(gravidade, corpos) {
 
 Mundo.prototype.moverCorpo = function (corpo) {
     corpo.atualizarForcas(this.gravidade)
-
     const { linear: deslocamento, angular: angulo} = this.calcularDeslocamento(corpo)
     corpo.transladar(deslocamento)
     corpo.rotacionar(angulo)
@@ -15,6 +14,9 @@ Mundo.prototype.movimentarCorpos = function () {
     this.corpos.forEach(corpo => this.moverCorpo(corpo), this)
 }
 
-Mundo.prototype.calcularDeslocamento = function () {
+Mundo.prototype.calcularDeslocamento = function (corpo) {
+    console.log(corpo)
+}
 
-} 
+
+Mundo.prototype.calcularRotacao = function (corpo){} 

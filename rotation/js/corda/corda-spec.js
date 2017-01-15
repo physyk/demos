@@ -1,22 +1,31 @@
-describe('corda', function(){
+describe('corda', function () {
+    let inicio, fim, extremidades, corda, boteco   
+    const elasticidade = -2, comprimentoNatural = 0.5
 
-    it('calcula tensao', function(){
-        const inicio = new Vetor(0,0)
-            , fim = new Vetor(1,1)
-            , extremidades = [inicio, fim]
-            , elasticidade = -2
-            , comprimentoNatural =  0.5
+    beforeEach(function () {
+        inicio = new Vetor(0, 0)
+        fim = new Vetor(1, 1)
+        extremidades = [inicio, fim],
+        corda = new Corda(comprimentoNatural, elasticidade, extremidades)
+    })
 
-        const corda = new Corda(comprimentoNatural, extremidades, elasticidade)
-            , distencao = 1.414 - comprimentoNatural    
-            , forcaEsperada = distencao*elasticidade
+    it('calcula tensao', function () {
+        const distencao = 1.414 - comprimentoNatural
+            , forcaEsperada = distencao * elasticidade
+            , ratio = abs(forcaEsperada / corda.tensao().comprimento())
 
-        expect(abs(forcaEsperada-corda.tensao())).to.be.below(0.01)
+        expect(ratio - 1).to.be.below(0.01)
 
     })
 
-    xit('quando a posicao da corda novo valor da tensao é calculado', function(){
+    it('quando a posicao da corda novo valor da tensao é calculado', function () {
+        corda.atualizarExtremidade(new Vetor(2,2))
+        
+        const novoComprimento = fim.distancia(inicio).comprimento()
+            , forcaEsperada = (novoComprimento - comprimentoNatural) *elasticidade
+            , ratio = abs(forcaEsperada / corda.tensao().comprimento())
 
+        expect(ratio - 1).to.be.below(0.01)    
     })
 
 })

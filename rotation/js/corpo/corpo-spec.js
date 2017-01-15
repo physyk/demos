@@ -12,14 +12,21 @@ function setCorpoDependecies() {
     Vetor.prototype.produtoVetorial = function () { return this }
     Vetor.prototype.multiplicar = function () { return this }
 
-    return Vetor
+    function Corda(){}
+    Corda.prototype.rotacionarExtremidade = function (){}
+    Corda.prototype.transladarExtremidade = function (){}
+
+
+    return {Vetor, Corda}
 }
 
 
 function createCorpo({gravidade, corda, vertices, massa}) {
+    const {Vetor, Corda} = setCorpoDependecies()  
+    
     gravidade = gravidade || 10
-    corda = corda || new (function Corda() { })()
-    vertices = vertices || new (function Vetor() { })()
+    corda = corda || new Corda()
+    vertices = vertices || new Vetor()
     massa = massa || 1
 
     return new Corpo(gravidade, corda, vertices, massa)
@@ -27,7 +34,7 @@ function createCorpo({gravidade, corda, vertices, massa}) {
 
 describe('Corpo', function () {
 
-    const Vetor = setCorpoDependecies()
+    const {Vetor} = setCorpoDependecies()
         , vertices = [new Vetor(0, 1), new Vetor(0, 0), new Vetor(1, 0)]
 
     let corpo

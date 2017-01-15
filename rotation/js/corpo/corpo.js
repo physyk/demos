@@ -1,4 +1,4 @@
-function Corpo(gravidade, corda, vertices, massa) {
+function Corpo(gravidade, corda, vertices, massa, pontoAmarradoCorda) {
     this.massa = massa || 1
     this.vertices = vertices
     this.centroDeMassa = this.calcularcentroDeMassa()
@@ -6,6 +6,7 @@ function Corpo(gravidade, corda, vertices, massa) {
     this.momentoInercia = 1200 //definir
     this.deslocamentoLinear = { posicao: this.centroDeMassa, velocidade: 0, aceleracao: 0 }
     this.deslocamentoAngular = { posicao: 0, velocidade: 0, aceleracao: 0 }
+    this.pontoAmarradoCorda = pontoAmarradoCorda
 }
 
 
@@ -71,24 +72,26 @@ Corpo.prototype.atualizarTorques = function () {
 }
 
 Corpo.prototype.transladarVertices = function (deslocamento) {
-    this.vertices.forEach(vertice => vertice.transladar(deslocamento))
+    this.vertices = this.vertices.map(vertice => vertice.transladar(deslocamento))
 }
 
 Corpo.prototype.rotacionarVertices = function (angulo) {
     const {centroDeMassa} = this
-    this.vertices.forEach(vertice => vertice.rotacionar(angulo, centroDeMassa))
+    this.vertices = this.vertices.map(vertice => vertice.rotacionar(angulo, centroDeMassa))
 }
 
 Corpo.prototype.transladar = function (translacao) {
     const {posicao} = translacao
     this.deslocamentoLinear = translacao
     this.centroDeMassa.transladar(posicao)
+    this.corda.transladarExtremidade(posicao)
     this.transladarVertices(posicao)
 }
 
 Corpo.prototype.rotacionar = function (rotacao) {
     const {posicao: angulo } = rotacao
     this.rotacionarVertices(angulo)
+    this.corda.rotacionarExtremidade(angulo, this.centroDeMassa)
     this.deslocamentoAngular = rotacao
 }
 

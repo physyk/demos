@@ -23,7 +23,6 @@ describe('Mundo', function () {
 
         beforeEach(() => {
             mundo = createMundo()
-
             calcularDeslocamento = sinon.stub(mundo, 'calcularDeslocamento')
             deslocamento = { angular: Math.random(), linear: Math.random() }
             calcularDeslocamento.returns(deslocamento)
